@@ -1,0 +1,7 @@
+nav.navbar a.navbar-brand, nav.navbar a.navbar-brand:hover{
+    color: #ff8c18;
+}
+
+nav.navbar img{
+    width: 40px;
+}

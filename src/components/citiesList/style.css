@@ -1,0 +1,10 @@
+li.media{
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: all .2s;
+}
+
+li.media:hover{
+    box-shadow: 0 5px 10px rgba(0,0,0, 0.2);
+    transform: scale(1.01);
+}
