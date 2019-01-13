@@ -23,9 +23,6 @@ class App extends Component {
 		        cities: JSON.parse(stateData).cities
 	        };
         }
-        
-        
-        this.reloadCitiesData = setInterval(this.updateCitiesWeather, 5000);
     }
     
     componentWillUnmount = () => {
@@ -34,10 +31,15 @@ class App extends Component {
     };
 	
 	componentDidUpdate = () => {
+		console.log("componentDidUpdate");
 		sessionStorage.setItem('state', JSON.stringify(this.state));
     };
 	
-    updateCitiesWeather = () => {
+	componentDidMount = () => {
+		this.reloadCitiesData = setInterval(this.updateCitiesWeather, 4000);
+	};
+	
+	updateCitiesWeather = () => {
         console.log("updateCitiesWeather");
 	
         const {cities} = this.state;
@@ -45,11 +47,20 @@ class App extends Component {
 	
 	    Promise.all(cities.map(city => this.fetchNewCitiesData(city, url, units, key)))
             .then(arrData => {
-	            this.setState({
-		            cities: arrData
-	            })
+	
+	            if(!this.isFetchDataSameWithState(arrData)){
+	            	console.log("State was changed...");
+		            this.setState({
+			            cities: arrData
+		            })
+	            }
+	            
             });
     };
+	
+	isFetchDataSameWithState = (arrData) => {
+		return _.isEqualWith(arrData, this.state.cities, (objValue, othValue) => _.isEqual(objValue,othValue))
+	};
     
     fetchNewCitiesData = async (city,url,units,key) => {
 	    return await (await fetch(`${url}?units=${units}&APPID=${key}&q=${city.name}`)).json();

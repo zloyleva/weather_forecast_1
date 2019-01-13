@@ -6,23 +6,25 @@ class AddCityForm extends Component {
 	
 	state = {
 		showErrorFetchCity: false,
-		message: null
+		message: null,
+		searchText: ''
 	};
 	
 	isExistCityInList = (city) => {
 		return !!_.find(this.props.cities, {id: city.id})
 	};
 	
-	typeTextInInput = () => {
+	typeTextInInput = (e) => {
 		this.setState({
-			showErrorFetchCity: false
+			showErrorFetchCity: false,
+			searchText: e.target.value
 		});
 	};
 	
 	addNewCityHandler = (e) => {
 		const eventTarget = e.target;
 		e.preventDefault();
-		const city = eventTarget.city.value;
+		const city = this.state.searchText;
 		const {REACT_APP_API_URL: url, REACT_APP_APPID: key, REACT_APP_UNITS: units} = process.env;
 		
 		eventTarget.reset();
@@ -35,7 +37,6 @@ class AddCityForm extends Component {
 
 				if(res.cod == 200){
 					if(this.isExistCityInList(res)){
-						console.log("EXIST");
 						this.setState({
 							showErrorFetchCity: true,
 							message: "This city is exit in list",
