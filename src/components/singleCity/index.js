@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import './style.css';
+import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 
-class SingleCity extends Component {
+class SingleCityWithMap extends Component {
 	
 	render() {
 		
@@ -16,10 +18,28 @@ class SingleCity extends Component {
 						<p>Weather description: {foundCity.weather[0].description}</p>
 						<p>Temperature: {foundCity.main.temp} °C</p>
 					</div>
+					<div className="col-12" id="Google__Map__Container">
+						<Map
+							google={this.props.google}
+							zoom={12}
+							initialCenter={{
+								lat: foundCity.coord.lat,
+								lng: foundCity.coord.lon
+							}}
+						>
+							
+							<Marker onClick={this.onMarkerClick}
+							        name={foundCity.name} />
+						</Map>
+					</div>
 				</div>
 			</div>
 		);
 	}
 }
 
-export default SingleCity;
+// export default SingleCity;
+
+export default GoogleApiWrapper({
+	apiKey: (process.env.REACT_APP_GOOGLE_API_KEY)
+})(SingleCityWithMap)

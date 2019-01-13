@@ -36,7 +36,7 @@ class App extends Component {
     };
 	
 	componentDidMount = () => {
-		this.reloadCitiesData = setInterval(this.updateCitiesWeather, 4000);
+		this.reloadCitiesData = setInterval(this.updateCitiesWeather, 10000);
 	};
 	
 	updateCitiesWeather = () => {
